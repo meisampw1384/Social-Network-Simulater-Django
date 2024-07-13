@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME' :DB_NAME,
+        'NAME' :DB_NAME,   
         'HOST' : DB_HOST,
         'USER' : DB_USER,
         'PASSWORD': DB_PASS
