@@ -6,9 +6,10 @@ from rest_framework import serializers
 
 User = get_user_model()
 class RegisterSerializer(serializers.Serializer):
-    email = serializers.EmailField(requeired = True, validators=[UniqueValidator(queryset= User.objects.all())])
-    password1 = serializers.CharField(required = True)
-    password2 = serializers.CharField(required = True)
+    email = serializers.EmailField(required = True, validators=[UniqueValidator(queryset= User.objects.all())])
+    password1 = serializers.CharField(required = True,write_only = True)
+    password2 = serializers.CharField(required = True,write_only = True)
+    username=serializers.CharField(required = True)
     
     class Meta:
         model = User
@@ -20,9 +21,12 @@ class RegisterSerializer(serializers.Serializer):
             raise serializers.ValidationError({"password": 'passwords did not match'})
         return attrs
     def create(self,validate_data):
-        user=User.objects.create(username=validate_data['username'],
-                                 email=validate_data['email'],
-                                 first_name=validate_data.get('first_name',''),
-                                 last_name=validate_data.get('last_name',''))
-        user.set_password(validate_data['password1'])
-        user.save()
+        user=User.objects.create_user(
+            username=validate_data['username'],
+            email=validate_data['email'],
+            first_name=validate_data.get('first_name',''),
+            last_name=validate_data.get('last_name',''),
+            password=validate_data['password1']
+            )
+       
+        return user
