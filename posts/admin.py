@@ -10,6 +10,7 @@ class PostFileInlineAdmin(admin.StackedInline):
     
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    fields = ('user','title','is_active','created_time')
+    fields = ('user','caption','title','is_active','created_time')
+    list_display = ('title','user','is_active','created_time')
     readonly_fields= ('created_time',)
     inlines = (PostFileInlineAdmin,)
