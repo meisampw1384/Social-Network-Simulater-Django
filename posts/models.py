@@ -1,6 +1,10 @@
 from django.db import models
+from django.conf import settings
+
+
 
 class Post(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     caption = models.TextField(max_length=512)
     is_active = models.BooleanField(default = True)
@@ -11,6 +15,9 @@ class Post(models.Model):
     class Meta:
         verbose_name='Post'
         verbose_name_plural = 'Posts'
+    
+    def __str__(self):
+        return self.title
         
         
 class PostFile(models.Model):
@@ -22,6 +29,9 @@ class PostFile(models.Model):
     class Meta:
         verbose_name = 'Post File'
         verbose_name_plural = 'Post Files'
+        
+        
+
     
     
     
