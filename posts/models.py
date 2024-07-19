@@ -30,6 +30,21 @@ class PostFile(models.Model):
         verbose_name = 'Post File'
         verbose_name_plural = 'Post Files'
         
+
+class Comment(models.Model):
+    post = models.ForeignKey(to = Post, on_delete=models.PROTECT, related_name='comments')
+    user = models.ForeignObject(to = settings.AUTH_USER_MODEL , on_delete = models.CASCADE)
+    text = models.TextField()
+    is_approved = models.BooleanField(default=False)
+    created_time = models.DateTimeField(auto_now_add= True)
+    updated_time = models.DateTimeField(auto_now = True)
+    
+    class Meta:
+        verbose_name = 'Comment'
+        verbose_name_plural = 'Comments'
+        
+
+        
         
 
     
