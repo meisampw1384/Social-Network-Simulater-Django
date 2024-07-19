@@ -42,7 +42,9 @@ class Comment(models.Model):
     class Meta:
         verbose_name = 'Comment'
         verbose_name_plural = 'Comments'
-        
+     
+     
+
 
 class Like(models.Model):
     post = models.ForeignKey(to = Post , on_delete=models.PROTECT,related_name='likes')
