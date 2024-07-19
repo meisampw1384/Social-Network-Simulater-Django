@@ -44,7 +44,17 @@ class Comment(models.Model):
         verbose_name_plural = 'Comments'
         
 
-        
+class Like(models.Model):
+    post = models.ForeignKey(to = Post , on_delete=models.PROTECT,related_name='likes')
+    user = models.ForeignKey(to = settings.AUTH_USER_MODEL,on_delete= models.CASCADE)
+    is_liked = models.BooleanField(default = True)
+    created_time = models.DateTimeField(auto_now_add=True)
+    updated_time = models.DateTimeField(auto_now= True)
+    
+    class Meta: 
+        verbose_name = 'Like'
+        verbose_name_plural = 'Likes'
+       
         
 
     
