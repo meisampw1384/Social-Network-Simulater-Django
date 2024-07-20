@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 
 from rest_framework import status
 from rest_framework.views import APIView
@@ -32,5 +33,40 @@ class RequestView(APIView):
         Friendship.objects.get_or_create(request_from = request.user , request_to = user)
         
         return Response({'detail': 'Request sent'},status = status.HTTP_201_CREATED)
+    
+class RequestList(APIView):
+    permission_classes=[IsAuthenticated]
+    
+    def get(self,request):
+        requests = Friendship.objects.filter(request_to = request.user , is_accepted = False)
+        users = [fr.request_from for fr in requests]
+        serializer = UserListSerializer(users , many = True)
+        return Response(serializer.data,status = status.HTTP_200_OK)
         
 
+class AcceptView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self,request):
+        user_id = request.data.get('user')
+        
+        try :
+            user = User.objects.get(pk = user_id)
+            friendship = Friendship.objects.get(request_from = user , request_to = request.user, is_accepted = False)
+        except (User.DoesNotExist ,Friendship.DoesNotExist) : 
+            return Response(status = status.HTTP_400_BAD_REQUEST)
+        
+        friendship.is_accepted = True
+        friendship.save()
+        
+        return Response({'detail': 'Connected'})
+    
+class FriendListView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self,request):
+        requests = Friendship.objects.filter(Q(request_from = request.user) | Q(request_to = request.user),is_accepted = True)
+        users = [fr.request_from for fr in requests]
+        serializer = UserListSerializer(users , many = True)
+        return Response(serializer.data,status = status.HTTP_200_OK)
+        

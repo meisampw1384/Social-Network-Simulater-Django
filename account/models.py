@@ -17,9 +17,9 @@ class Country(models.Model):
         #db_table = 'countries
     
 class Profile(models.Model):
-    user = models.OneToOneField(to = settings.AUTH_USER_MODEL , on_delete= models.CASCADE)
+    user = models.OneToOneField(to = settings.AUTH_USER_MODEL , on_delete= models.CASCADE,related_name='profile')
     phone_number = models.BigIntegerField(blank = True, null = True , unique=True)
-    Country = models.ForeignKey(to=Country, on_delete=models.CASCADE)
+    Country = models.ForeignKey(to=Country, on_delete=models.CASCADE,null=True , blank = True)
     avatar= models.ImageField(blank = True)
     
 class Device(models.Model):
