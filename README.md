@@ -1,9 +1,5 @@
 # Social Network Simulator
 
-![Build Status](https://img.shields.io/github/actions/workflow/status/meisampw1384/Social-Network-Simulater-Django/ci.yml)
-![Coverage](https://img.shields.io/codecov/c/github/meisampw1384/Social-Network-Simulater-Django)
-![License](https://img.shields.io/github/license/meisampw1384/Social-Network-Simulater-Django)
-![Version](https://img.shields.io/github/v/tag/meisampw1384/Social-Network-Simulater-Django)
 
 This repository contains a Django-based social network simulator that allows users to create and manage profiles, post content, and interact with other users. The project is structured with the following apps:
 
